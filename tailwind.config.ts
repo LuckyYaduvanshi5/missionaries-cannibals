@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,16 +53,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
+        game: {
+          river: '#a3d8f4',
+          riverDark: '#205375',
+          bank: '#c1e1c1',
+          bankDark: '#24523a',
+          boat: '#d4a373',
+          boatDark: '#6b4f2d'
+        }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +83,17 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+        'boat-rock': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(-2deg)' },
+          '75%': { transform: 'rotate(2deg)' }
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+        'boat-rock': 'boat-rock 3s ease-in-out infinite'
 			}
 		}
 	},
