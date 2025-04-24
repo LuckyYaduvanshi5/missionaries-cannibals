@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -399,7 +398,8 @@ const Game = () => {
               key={`m-${i}`} 
               className={`w-12 h-12 flex items-center justify-center text-xl rounded-full ${
                 canSelect ? 'cursor-pointer hover:scale-110 transform transition-transform' : ''
-              } bg-gradient-to-br from-blue-400 to-blue-600 text-white dark:from-blue-700 dark:to-blue-900 shadow-md`}
+              } bg-gradient-to-br from-blue-400 to-blue-600 text-white dark:from-blue-700 dark:to-blue-900 shadow-md animate-bounce-subtle`}
+              style={{ animationDelay: `${i * 0.2}s` }}
               onClick={() => canSelect ? selectPassenger('missionaries', side) : null}
             >
               👨‍🦳
@@ -412,7 +412,8 @@ const Game = () => {
               key={`c-${i}`} 
               className={`w-12 h-12 flex items-center justify-center text-xl rounded-full ${
                 canSelect ? 'cursor-pointer hover:scale-110 transform transition-transform' : ''
-              } bg-gradient-to-br from-red-400 to-red-600 text-white dark:from-red-700 dark:to-red-900 shadow-md`}
+              } bg-gradient-to-br from-red-400 to-red-600 text-white dark:from-red-700 dark:to-red-900 shadow-md animate-bounce-subtle`}
+              style={{ animationDelay: `${i * 0.2}s` }}
               onClick={() => canSelect ? selectPassenger('cannibals', side) : null}
             >
               🧟
@@ -426,17 +427,15 @@ const Game = () => {
   // Render boat with selected people
   const renderBoat = () => {
     const boatPosition = gameState.boat.position;
-    // Fixed the positioning to avoid overlap with bank elements
-    const positionClass = boatPosition === 'left' ? 'left-[20%]' : 'right-[20%]';
+    const positionClass = boatPosition === 'left' ? 'boat-left' : 'boat-right';
     
     return (
       <div className={`absolute ${positionClass} bottom-4 w-32 h-24 transition-all duration-1000 flex flex-col items-center animate-boat-rock`}>
         <div className="flex gap-2 mb-1">
-          {/* Selected passengers */}
           {Array(selectedPassengers.missionaries).fill(0).map((_, i) => (
             <div 
               key={`bm-${i}`} 
-              className="w-10 h-10 flex items-center justify-center text-lg rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white cursor-pointer hover:bg-blue-600 dark:from-blue-700 dark:to-blue-900 shadow-md transform transition-transform hover:scale-105"
+              className="w-10 h-10 flex items-center justify-center text-lg rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white cursor-pointer hover:bg-blue-600 dark:from-blue-700 dark:to-blue-900 shadow-md transform transition-transform hover:scale-105 animate-bounce-subtle"
               onClick={() => deselectPassenger('missionaries')}
             >
               👨‍🦳
@@ -445,7 +444,7 @@ const Game = () => {
           {Array(selectedPassengers.cannibals).fill(0).map((_, i) => (
             <div 
               key={`bc-${i}`} 
-              className="w-10 h-10 flex items-center justify-center text-lg rounded-full bg-gradient-to-br from-red-400 to-red-600 text-white cursor-pointer hover:bg-red-600 dark:from-red-700 dark:to-red-900 shadow-md transform transition-transform hover:scale-105"
+              className="w-10 h-10 flex items-center justify-center text-lg rounded-full bg-gradient-to-br from-red-400 to-red-600 text-white cursor-pointer hover:bg-red-600 dark:from-red-700 dark:to-red-900 shadow-md transform transition-transform hover:scale-105 animate-bounce-subtle"
               onClick={() => deselectPassenger('cannibals')}
             >
               🧟
@@ -477,7 +476,7 @@ const Game = () => {
             </div>
           </header>
 
-          <Card className="mb-6 p-4 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border-0 shadow-xl animate-fade-in">
+          <Card className="mb-6 p-4 glass-card animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-bold">Game Controls</h2>
@@ -556,7 +555,7 @@ const Game = () => {
           </div>
           
           {gameState.showHints && gameState.gameStatus === 'playing' && (
-            <Card className="mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-yellow-200 dark:border-yellow-800 animate-fade-in">
+            <Card className="mb-4 p-4 glass-card animate-fade-in">
               <h3 className="font-medium mb-2 flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
                 <Award className="h-4 w-4" /> Hint
               </h3>
@@ -602,7 +601,7 @@ const Game = () => {
             </div>
           </div>
 
-          <Card className="p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-xl animate-fade-in">
+          <Card className="p-6 glass-card animate-fade-in">
             <h2 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600 dark:from-blue-400 dark:to-green-400">Game Rules</h2>
             <ul className="list-none space-y-2">
               {[
