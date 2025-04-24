@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -425,10 +426,11 @@ const Game = () => {
   // Render boat with selected people
   const renderBoat = () => {
     const boatPosition = gameState.boat.position;
-    const animationClass = boatPosition === 'left' ? 'boat-left' : 'boat-right';
+    // Fixed the positioning to avoid overlap with bank elements
+    const positionClass = boatPosition === 'left' ? 'left-[20%]' : 'right-[20%]';
     
     return (
-      <div className={`boat ${animationClass} w-32 h-24 absolute bottom-2 transition-all duration-1000 flex flex-col items-center animate-boat-rock`}>
+      <div className={`absolute ${positionClass} bottom-4 w-32 h-24 transition-all duration-1000 flex flex-col items-center animate-boat-rock`}>
         <div className="flex gap-2 mb-1">
           {/* Selected passengers */}
           {Array(selectedPassengers.missionaries).fill(0).map((_, i) => (

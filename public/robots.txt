@@ -1,3 +1,9 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://river-escape-saga.lovable.dev/sitemap.xml
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +16,3 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /

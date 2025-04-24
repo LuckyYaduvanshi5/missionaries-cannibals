@@ -1,0 +1,17 @@
+
+{
+  "name": "Missionaries & Cannibals: River Escape Puzzle",
+  "short_name": "River Escape",
+  "description": "A classic logic puzzle game challenging you to transport missionaries and cannibals across a river safely.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#33C3F0",
+  "icons": [
+    {
+      "src": "/lovable-uploads/43cf1ada-4d2e-47fd-8f49-f7e44c92c1bd.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

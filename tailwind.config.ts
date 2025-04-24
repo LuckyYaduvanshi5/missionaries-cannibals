@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,9 +54,9 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         game: {
-          river: '#a3d8f4',
+          river: '#33C3F0',
           riverDark: '#205375',
-          bank: '#c1e1c1',
+          bank: '#F2FCE2',
           bankDark: '#24523a',
           boat: '#d4a373',
           boatDark: '#6b4f2d'
@@ -76,15 +77,20 @@ export default {
           to: { height: "0" },
         },
         'boat-rock': {
-          '0%, 100%': { transform: 'rotate(0deg)' },
-          '25%': { transform: 'rotate(-2deg)' },
-          '75%': { transform: 'rotate(2deg)' }
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '25%': { transform: 'translateY(3px) rotate(-2deg)' },
+          '75%': { transform: 'translateY(-3px) rotate(2deg)' }
+        },
+        'wave': {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '200px 0' }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'boat-rock': 'boat-rock 3s ease-in-out infinite'
+        'boat-rock': 'boat-rock 3s ease-in-out infinite',
+        'wave': 'wave 10s linear infinite'
       }
     }
   },
