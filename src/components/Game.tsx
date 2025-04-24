@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { 
   Moon, Sun, HelpCircle, RotateCcw, 
-  Award, Zap, ArrowRight, Play, Stop 
+  Award, Zap, ArrowRight, Play, Square 
 } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
@@ -525,7 +525,7 @@ const Game = () => {
                   className="flex items-center gap-2 hover:bg-red-100 dark:hover:bg-red-900 transition-colors"
                   onClick={stopAutoSolve}
                 >
-                  <Stop className="h-4 w-4" /> Stop Auto Solve
+                  <Square className="h-4 w-4" /> Stop Auto Solve
                 </Button>
               )}
             </div>
