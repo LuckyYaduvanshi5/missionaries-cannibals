@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -609,7 +608,7 @@ const Game = () => {
                 "The boat can carry 1 or 2 people and cannot move empty.",
                 "Missionaries cannot be outnumbered by Cannibals on either side.",
                 "Click on characters to select/deselect them for the boat.",
-                "Click on the boat or the "Move Boat" button to cross the river.",
+                "Click on the boat or the \"Move Boat\" button to cross the river.",
                 "In Hard Mode, you must solve the puzzle in 11 moves."
               ].map((rule, index) => (
                 <li key={index} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
