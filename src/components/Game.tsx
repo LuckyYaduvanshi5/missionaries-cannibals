@@ -311,23 +311,27 @@ const Game = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-      <div className="container mx-auto p-4 max-w-4xl dark:bg-gray-900 dark:text-gray-100">
-        <header className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-primary">River Escape: Missionaries vs Cannibals</h1>
+    <div className={`min-h-screen ${darkMode ? 'dark' : ''} bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800`}>
+      <div className="container mx-auto p-4 max-w-4xl">
+        <header className="flex justify-between items-center mb-6 animate-fade-in">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600 dark:from-blue-400 dark:to-green-400">
+            River Escape: Missionaries vs Cannibals
+          </h1>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={toggleDarkMode}>
+            <Button variant="outline" size="icon" onClick={toggleDarkMode} className="rounded-full hover:rotate-90 transition-transform duration-300">
               {darkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
             </Button>
           </div>
         </header>
 
-        <Card className="mb-6 p-4">
+        <Card className="mb-6 p-4 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border-0 shadow-xl animate-fade-in">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold">Game Controls</h2>
               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                gameState.difficulty === 'easy' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+                gameState.difficulty === 'easy' 
+                  ? 'bg-gradient-to-r from-green-400 to-green-500 text-white' 
+                  : 'bg-gradient-to-r from-red-400 to-red-500 text-white'
               }`}>
                 {gameState.difficulty.toUpperCase()}
               </span>
@@ -336,7 +340,7 @@ const Game = () => {
               <span className="text-sm font-medium">Hard Mode</span>
               <Switch 
                 checked={gameState.difficulty === 'hard'} 
-                onCheckedChange={toggleDifficulty} 
+                onCheckedChange={toggleDifficulty}
               />
             </div>
           </div>
@@ -344,21 +348,21 @@ const Game = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Button 
               variant="outline" 
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={resetGame}
             >
               <RotateCcw className="h-4 w-4" /> Reset Game
             </Button>
             <Button 
               variant="outline" 
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={toggleHints}
             >
               <HelpCircle className="h-4 w-4" /> {gameState.showHints ? 'Hide Hints' : 'Show Hints'}
             </Button>
             <Button 
               variant="outline" 
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={autoSolve}
             >
               <Zap className="h-4 w-4" /> Auto Solve
@@ -366,17 +370,21 @@ const Game = () => {
           </div>
         </Card>
 
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 animate-fade-in">
           <div className="flex items-center gap-2">
             <span className="font-medium">Moves:</span>
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{gameState.moveCount} / {gameState.maxMoves}</span>
+            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 rounded-full font-medium">
+              {gameState.moveCount} / {gameState.maxMoves}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-medium">Status:</span>
-            <span className={`px-2 py-1 rounded ${
-              gameState.gameStatus === 'playing' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100' : 
-              gameState.gameStatus === 'won' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' : 
-              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+            <span className={`px-3 py-1 rounded-full font-medium ${
+              gameState.gameStatus === 'playing' 
+                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100' 
+                : gameState.gameStatus === 'won'
+                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
             }`}>
               {gameState.gameStatus === 'playing' ? 'In Progress' : 
                gameState.gameStatus === 'won' ? 'Victory!' : 'Mission Failed'}
@@ -385,25 +393,25 @@ const Game = () => {
         </div>
         
         {gameState.showHints && gameState.gameStatus === 'playing' && (
-          <Card className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800">
-            <h3 className="font-medium mb-2 flex items-center gap-2">
+          <Card className="mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-yellow-200 dark:border-yellow-800 animate-fade-in">
+            <h3 className="font-medium mb-2 flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
               <Award className="h-4 w-4" /> Hint
             </h3>
-            <p className="text-sm">{hints[Math.min(gameState.moveCount, hints.length - 1)]}</p>
+            <p className="text-sm text-yellow-700 dark:text-yellow-300">{hints[Math.min(gameState.moveCount, hints.length - 1)]}</p>
           </Card>
         )}
         
         <div className="relative mb-6">
-          {/* Game area */}
-          <div className="game-area h-60 flex">
+          <div className="game-area h-60 flex rounded-lg overflow-hidden shadow-2xl animate-fade-in">
             {/* Left bank */}
             {renderBank('left')}
             
             {/* River */}
-            <div className="h-full flex-grow relative bg-gradient-to-r from-blue-300 to-blue-400 dark:from-blue-900 dark:to-blue-800 flex items-center justify-center">
+            <div className="h-full flex-grow relative bg-gradient-to-r from-blue-300 via-blue-400 to-blue-300 dark:from-blue-900 dark:via-blue-800 dark:to-blue-900 flex items-center justify-center">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAgMTAwIHEgNTAgLTUwIDEwMCAwIHQgMTAwIDAgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+')] animate-[wave_10s_linear_infinite] opacity-30"></div>
               {renderBoat()}
               <div className="absolute top-0 left-0 right-0 text-center -mt-6">
-                <p className="text-sm font-medium bg-white/70 dark:bg-black/70 inline-block px-2 py-1 rounded">
+                <p className="text-sm font-medium bg-white/70 dark:bg-black/70 inline-block px-3 py-1 rounded-full shadow-lg">
                   {gameState.boat.position === 'left' ? 'Select passengers from the left bank' : 'Select passengers from the right bank'}
                 </p>
               </div>
@@ -413,27 +421,33 @@ const Game = () => {
             {renderBank('right')}
           </div>
           
-          {/* Controls */}
           <div className="mt-4 flex justify-center">
             <Button
               disabled={gameState.gameStatus !== 'playing'}
               onClick={moveBoat}
-              className="px-6 py-2"
+              className="px-6 py-2 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:from-gray-400 disabled:to-gray-500"
             >
               Move Boat {gameState.boat.position === 'left' ? 'to Right' : 'to Left'}
             </Button>
           </div>
         </div>
 
-        <Card className="p-4">
-          <h2 className="text-xl font-bold mb-2">Rules</h2>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Move all 3 Missionaries and 3 Cannibals across the river.</li>
-            <li>The boat can carry 1 or 2 people and cannot move empty.</li>
-            <li>Missionaries cannot be outnumbered by Cannibals on either side.</li>
-            <li>Click on characters to select/deselect them for the boat.</li>
-            <li>Click "Move Boat" to cross the river.</li>
-            <li>In Hard Mode, you must solve the puzzle in 11 moves.</li>
+        <Card className="p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-xl animate-fade-in">
+          <h2 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600 dark:from-blue-400 dark:to-green-400">Game Rules</h2>
+          <ul className="list-none space-y-2">
+            {[
+              "Move all 3 Missionaries and 3 Cannibals across the river.",
+              "The boat can carry 1 or 2 people and cannot move empty.",
+              "Missionaries cannot be outnumbered by Cannibals on either side.",
+              "Click on characters to select/deselect them for the boat.",
+              "Click "Move Boat" to cross the river.",
+              "In Hard Mode, you must solve the puzzle in 11 moves."
+            ].map((rule, index) => (
+              <li key={index} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
+                <span className="text-blue-500 dark:text-blue-400">•</span>
+                {rule}
+              </li>
+            ))}
           </ul>
         </Card>
       </div>
