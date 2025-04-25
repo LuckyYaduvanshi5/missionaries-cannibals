@@ -127,17 +127,23 @@
 }
 
 .boat-left {
-  left: 15%;
-  transform: translateX(-50%) scale(0.8);
+  left: 20%;
+  transform: translateX(-50%) scale(0.6);
 }
 
 .boat-right {
-  left: 85%;
-  transform: translateX(-50%) scale(0.8);
+  left: 80%;
+  transform: translateX(-50%) scale(0.6);
 }
 
 @media (min-width: 768px) {
-  .boat-left, .boat-right {
+  .boat-left {
+    left: 15%;
+    transform: translateX(-50%) scale(1);
+  }
+  
+  .boat-right {
+    left: 85%;
     transform: translateX(-50%) scale(1);
   }
 }

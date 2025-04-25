@@ -1,73 +1,67 @@
-# Welcome to your Lovable project
 
-## Project info
+# 🚣‍♂️ River Escape: Missionaries vs Cannibals
 
-**URL**: https://lovable.dev/projects/f735c500-442f-4a33-87f4-e52fff510487
+A classic logic puzzle game implemented as an interactive web application.
 
-## How can I edit this code?
+![River Escape Screenshot](public/lovable-uploads/6ddf85b0-d639-46a8-8069-9609ca4eb391.png)
 
-There are several ways of editing your application.
+## 🎮 Play Now
 
-**Use Lovable**
+Try the game here: [River Escape Puzzle](https://riverpuzzle.netlify.app/)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f735c500-442f-4a33-87f4-e52fff510487) and start prompting.
+## 🎯 Game Objective
 
-Changes made via Lovable will be committed automatically to this repo.
+Help 3 missionaries and 3 cannibals cross a river using a boat that can carry at most 2 people. The catch? Missionaries can never be outnumbered by cannibals on either bank, or they'll be eaten! 
 
-**Use your preferred IDE**
+## 🔑 Key Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- 🎨 Beautiful, responsive design that works on all devices
+- 🌓 Dark/Light mode support
+- 🤖 Auto-solve feature to see the solution
+- 💡 Hint system for guidance
+- 🎚️ Two difficulty modes (Easy/Hard)
+- 🎵 Smooth animations and transitions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Technologies Used
 
-Follow these steps:
+- ⚛️ React
+- 🎨 Tailwind CSS
+- 📦 Vite
+- 🔷 TypeScript
+- 🎭 Shadcn UI
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 👨‍💻 Created By
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Lucky Yaduvanshi
+- [GitHub](https://github.com/LuckyYaduvanshi5)
+- [Portfolio](https://luckyyaduvanshi5.github.io/Portfolio/)
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🧩 More Puzzle Games
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Check out my other puzzle implementations:
+- [Water Jug Puzzle](https://luckyyaduvanshi5.github.io/WaterJugPuzzle/)
+- [Monkey Banana Puzzle](https://luckyyaduvanshi5.github.io/MonkeyBananaPuzzle/)
+
+## 🌐 Project Info
+
+**URL**: https://riverpuzzle.netlify.app/
+
+## 🛠️ Development
+
+To run this project locally:
+
+\`\`\`sh
+# Clone the repository
+git clone <repository-url>
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-```
+\`\`\`
 
-**Edit a file directly in GitHub**
+## 📜 License
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+MIT © Lucky Yaduvanshi
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f735c500-442f-4a33-87f4-e52fff510487) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)

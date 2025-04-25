@@ -12,14 +12,14 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 const Game = () => {
   const isMobile = useIsMobile();
-  // Game state
+  
   const [gameState, setGameState] = useState({
     leftBank: { missionaries: 3, cannibals: 3 },
     rightBank: { missionaries: 0, cannibals: 0 },
     boat: { missionaries: 0, cannibals: 0, position: 'left' },
     moveCount: 0,
-    gameStatus: 'playing', // 'playing', 'won', 'lost'
-    difficulty: 'easy', // 'easy', 'hard'
+    gameStatus: 'playing',
+    difficulty: 'easy',
     maxMoves: 15,
     showHints: false,
     autoSolving: false,
@@ -32,7 +32,6 @@ const Game = () => {
   const [popupMessage, setPopupMessage] = useState({ title: '', description: '', type: 'info' });
   const autoSolveTimeoutRef = useRef(null);
   
-  // Solution steps for the classic Missionaries and Cannibals problem
   const solutionSteps = [
     { 
       action: 'Move 2 cannibals from left to right',
@@ -102,25 +101,20 @@ const Game = () => {
     }
   ];
   
-  // Hints for optimal solution - updated to match solution steps
   const hints = solutionSteps.map(step => step.action);
   
-  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode(prev => !prev);
     document.documentElement.classList.toggle('dark');
   };
 
-  // Game logic functions
   const validateGameState = () => {
     const { leftBank, rightBank } = gameState;
     
-    // Check left bank
     if (leftBank.missionaries > 0 && leftBank.missionaries < leftBank.cannibals) {
       return false;
     }
     
-    // Check right bank
     if (rightBank.missionaries > 0 && rightBank.missionaries < rightBank.cannibals) {
       return false;
     }
@@ -133,7 +127,6 @@ const Game = () => {
   };
   
   const resetGame = () => {
-    // Clear any auto-solve timeout
     if (autoSolveTimeoutRef.current) {
       clearTimeout(autoSolveTimeoutRef.current);
       autoSolveTimeoutRef.current = null;
@@ -177,24 +170,19 @@ const Game = () => {
     }));
   };
   
-  // Passenger selection
   const selectPassenger = (type, bank) => {
-    // Can't select if game is over or auto-solving
     if (gameState.gameStatus !== 'playing' || gameState.autoSolving) return;
     
-    // Can only select from the bank where the boat is
     if (bank !== gameState.boat.position) return;
     
     const currentBank = gameState[`${bank}Bank`];
     const totalSelected = selectedPassengers.missionaries + selectedPassengers.cannibals;
     
-    // Check if we can select more
     if (totalSelected >= 2) {
       toast("Boat is full!", { description: "The boat can only carry up to 2 people." });
       return;
     }
     
-    // Check if there are people of this type available
     if (currentBank[type] <= 0) return;
     
     setSelectedPassengers(prev => ({
@@ -212,20 +200,16 @@ const Game = () => {
     }
   };
   
-  // Move boat
   const moveBoat = () => {
-    // Can't move during auto-solve
     if (gameState.autoSolving) return;
     
     const totalPassengers = selectedPassengers.missionaries + selectedPassengers.cannibals;
     
-    // Boat can't move empty
     if (totalPassengers === 0) {
       toast("Boat is empty!", { description: "At least one person must pilot the boat." });
       return;
     }
     
-    // Update banks and boat
     const currentPosition = gameState.boat.position;
     const newPosition = currentPosition === 'left' ? 'right' : 'left';
     
@@ -260,13 +244,10 @@ const Game = () => {
       }
     };
     
-    // Set state and clear selected passengers
     setGameState(newGameState);
     setSelectedPassengers({ missionaries: 0, cannibals: 0 });
     
-    // Check game state after move
     setTimeout(() => {
-      // Check if rules are broken
       if (!validateGameState()) {
         setGameState(prev => ({
           ...prev,
@@ -274,7 +255,6 @@ const Game = () => {
         }));
         showGamePopup('Mission Failed!', 'Cannibals outnumbered the missionaries!', 'error');
       }
-      // Check win condition
       else if (checkWinCondition()) {
         setGameState(prev => ({
           ...prev,
@@ -282,7 +262,6 @@ const Game = () => {
         }));
         showGamePopup('Victory!', 'You safely transported everyone across the river!', 'success');
       }
-      // Check move limit on hard mode
       else if (newGameState.moveCount >= newGameState.maxMoves && gameState.difficulty === 'hard') {
         setGameState(prev => ({
           ...prev,
@@ -293,23 +272,18 @@ const Game = () => {
     }, 1000);
   };
   
-  // Show popup message
   const showGamePopup = (title, description, type = 'info') => {
     setPopupMessage({ title, description, type });
     setShowPopup(true);
     
-    // Auto-hide the popup after 3 seconds
     setTimeout(() => {
       setShowPopup(false);
     }, 3000);
   };
   
-  // Auto solve function - execute solution step by step
   const autoSolve = () => {
-    // Reset the game first
     resetGame();
     
-    // Set autoSolving flag
     setGameState(prev => ({
       ...prev,
       autoSolving: true,
@@ -320,14 +294,12 @@ const Game = () => {
       description: "Watch carefully as the optimal solution unfolds step by step!" 
     });
     
-    // Execute the next step in the solution
     executeNextSolutionStep();
   };
 
   const executeNextSolutionStep = () => {
     const { solutionStep } = gameState;
     
-    // If we've reached the end of the solution, mark the game as won
     if (solutionStep >= solutionSteps.length) {
       setGameState(prev => ({ 
         ...prev, 
@@ -338,12 +310,10 @@ const Game = () => {
       return;
     }
     
-    // Show what's happening in this step
     toast(solutionSteps[solutionStep].action, { 
       description: `Move ${solutionStep + 1} of ${solutionSteps.length}` 
     });
     
-    // Update the game state to the next step in the solution
     setGameState(prev => ({
       ...prev,
       leftBank: { ...solutionSteps[solutionStep].leftBank },
@@ -353,13 +323,11 @@ const Game = () => {
       solutionStep: solutionStep + 1
     }));
     
-    // Schedule the next step
     autoSolveTimeoutRef.current = setTimeout(() => {
       executeNextSolutionStep();
-    }, 2000); // 2 seconds between moves
+    }, 2000);
   };
   
-  // Stop auto-solving
   const stopAutoSolve = () => {
     if (autoSolveTimeoutRef.current) {
       clearTimeout(autoSolveTimeoutRef.current);
@@ -376,7 +344,6 @@ const Game = () => {
     });
   };
   
-  // Clean up any timeouts on unmount
   useEffect(() => {
     return () => {
       if (autoSolveTimeoutRef.current) {
@@ -385,25 +352,24 @@ const Game = () => {
     };
   }, []);
 
-  // Render bank with people - updated for mobile
   const renderBank = (side) => {
     const bank = gameState[`${side}Bank`];
     const isBoatHere = gameState.boat.position === side;
     const canSelect = isBoatHere && gameState.gameStatus === 'playing' && !gameState.autoSolving;
     
     return (
-      <div className={`relative h-40 md:h-48 ${side === 'left' ? 'rounded-l-lg' : 'rounded-r-lg'} 
+      <div className={`relative h-32 md:h-48 ${side === 'left' ? 'rounded-l-lg' : 'rounded-r-lg'} 
         flex flex-col justify-end items-center p-2 md:p-4 
         bg-gradient-to-b from-game-bank to-game-bank/80 
         dark:from-game-bankDark dark:to-game-bankDark/80`}>
-        <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-green-800 dark:text-green-300">
+        <h3 className="text-xs md:text-lg font-bold mb-1 md:mb-2 text-green-800 dark:text-green-300">
           {side.charAt(0).toUpperCase() + side.slice(1)} Bank
         </h3>
         <div className="flex flex-wrap gap-1 md:gap-2 mb-1 md:mb-2 justify-center">
           {Array(bank.missionaries).fill(0).map((_, i) => (
             <div 
               key={`m-${i}`} 
-              className={`w-8 h-8 md:w-12 md:h-12 flex items-center justify-center text-base md:text-xl rounded-full 
+              className={`w-6 h-6 md:w-12 md:h-12 flex items-center justify-center text-sm md:text-xl rounded-full 
                 ${canSelect ? 'cursor-pointer active:scale-95 hover:scale-110 transform transition-transform' : ''} 
                 bg-gradient-to-br from-blue-400 to-blue-600 text-white 
                 dark:from-blue-700 dark:to-blue-900 shadow-md animate-bounce-subtle`}
@@ -418,7 +384,7 @@ const Game = () => {
           {Array(bank.cannibals).fill(0).map((_, i) => (
             <div 
               key={`c-${i}`} 
-              className={`w-8 h-8 md:w-12 md:h-12 flex items-center justify-center text-base md:text-xl rounded-full 
+              className={`w-6 h-6 md:w-12 md:h-12 flex items-center justify-center text-sm md:text-xl rounded-full 
                 ${canSelect ? 'cursor-pointer active:scale-95 hover:scale-110 transform transition-transform' : ''} 
                 bg-gradient-to-br from-red-400 to-red-600 text-white 
                 dark:from-red-700 dark:to-red-900 shadow-md animate-bounce-subtle`}
@@ -433,7 +399,6 @@ const Game = () => {
     );
   };
 
-  // Add the missing renderBoat function
   const renderBoat = () => {
     const { boat, gameStatus } = gameState;
     const isMoving = selectedPassengers.missionaries > 0 || selectedPassengers.cannibals > 0;
@@ -443,9 +408,8 @@ const Game = () => {
         className={`absolute bottom-2 ${boat.position === 'left' ? 'boat-left' : 'boat-right'} 
           transition-all duration-700 ease-in-out animate-boat-rock`}
       >
-        {/* Boat */}
         <div 
-          className={`w-28 h-12 md:w-32 md:h-14 rounded-b-full relative 
+          className={`w-20 h-8 md:w-32 md:h-14 rounded-b-full relative 
             bg-gradient-to-b from-game-boat to-game-boat/80
             dark:from-game-boatDark dark:to-game-boatDark/80
             ${isMoving ? 'scale-105' : ''} 
@@ -458,12 +422,11 @@ const Game = () => {
             }
           }}
         >
-          {/* Selected missionaries */}
-          <div className="absolute -top-8 left-2 flex gap-1">
+          <div className="absolute -top-6 md:-top-8 left-1 md:left-2 flex gap-1">
             {Array(selectedPassengers.missionaries).fill(0).map((_, i) => (
               <div 
                 key={`selected-m-${i}`} 
-                className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center text-sm md:text-base rounded-full 
+                className="w-5 h-5 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-base rounded-full 
                   bg-gradient-to-br from-blue-400 to-blue-600 text-white 
                   dark:from-blue-700 dark:to-blue-900 shadow-md 
                   cursor-pointer hover:scale-110 active:scale-95 transform transition-transform"
@@ -477,12 +440,11 @@ const Game = () => {
             ))}
           </div>
           
-          {/* Selected cannibals */}
-          <div className="absolute -top-8 right-2 flex gap-1">
+          <div className="absolute -top-6 md:-top-8 right-1 md:right-2 flex gap-1">
             {Array(selectedPassengers.cannibals).fill(0).map((_, i) => (
               <div 
                 key={`selected-c-${i}`} 
-                className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center text-sm md:text-base rounded-full 
+                className="w-5 h-5 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-base rounded-full 
                   bg-gradient-to-br from-red-400 to-red-600 text-white 
                   dark:from-red-700 dark:to-red-900 shadow-md 
                   cursor-pointer hover:scale-110 active:scale-95 transform transition-transform"
@@ -496,8 +458,7 @@ const Game = () => {
             ))}
           </div>
           
-          {/* Paddle */}
-          <div className={`absolute ${boat.position === 'left' ? 'right-2' : 'left-2'} -top-4 h-8 w-1.5 bg-amber-900 dark:bg-amber-800`}></div>
+          <div className={`absolute ${boat.position === 'left' ? 'right-1' : 'left-1'} -top-3 h-6 w-1 md:h-8 md:w-1.5 bg-amber-900 dark:bg-amber-800`}></div>
         </div>
       </div>
     );
@@ -505,9 +466,8 @@ const Game = () => {
 
   return (
     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-      <div className="bg-gradient-to-br from-purple-100 via-blue-100 to-green-100 dark:from-gray-900 dark:via-blue-900/30 dark:to-green-900/30 min-h-screen">
+      <div className="bg-gradient-to-br from-purple-100 via-blue-100 to-green-100 dark:from-gray-900 dark:via-blue-900/30 dark:to-green-900/30 min-h-screen pb-20">
         <div className="container mx-auto p-2 md:p-4 max-w-4xl">
-          {/* Header - Mobile Optimized */}
           <header className="flex flex-col md:flex-row justify-between items-center mb-4 md:mb-6 animate-fade-in gap-2">
             <h1 className="text-xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600 dark:from-blue-400 dark:to-green-400 text-center md:text-left">
               {isMobile ? 'River Escape' : 'River Escape: Missionaries vs Cannibals'}
@@ -519,7 +479,6 @@ const Game = () => {
             </div>
           </header>
 
-          {/* Game Controls - Mobile Optimized */}
           <Card className="mb-4 md:mb-6 p-3 md:p-4 glass-card animate-fade-in">
             <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 mb-3 md:mb-4">
               <div className="flex items-center gap-2 w-full md:w-auto justify-between">
@@ -576,7 +535,6 @@ const Game = () => {
             </div>
           </Card>
 
-          {/* Game Status - Mobile Optimized */}
           <div className="flex justify-between items-center mb-3 md:mb-4 animate-fade-in">
             <div className="flex items-center gap-2">
               <span className="font-medium text-sm md:text-base">Moves:</span>
@@ -599,12 +557,10 @@ const Game = () => {
             </div>
           </div>
 
-          {/* Game Area - Mobile Optimized */}
           <div className="relative mb-4 md:mb-6">
             <div className="game-area h-48 md:h-64 flex rounded-lg overflow-hidden shadow-2xl animate-fade-in">
               {renderBank('left')}
               
-              {/* River */}
               <div className="h-full flex-grow relative bg-gradient-to-r from-game-river via-blue-400 to-game-river dark:from-game-riverDark dark:via-blue-700 dark:to-game-riverDark flex items-center justify-center">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAgMTAwIHEgNTAgLTUwIDEwMCAwIHQgMTAwIDAgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+')] animate-[wave_10s_linear_infinite] opacity-30"></div>
                 <div className="absolute top-0 left-0 right-0 text-center -mt-4 md:-mt-6">
@@ -624,7 +580,6 @@ const Game = () => {
               {renderBank('right')}
             </div>
             
-            {/* Move Boat Button - Mobile Optimized */}
             <div className="mt-3 md:mt-4 flex justify-center">
               <Button
                 disabled={gameState.gameStatus !== 'playing' || gameState.autoSolving}
@@ -640,7 +595,6 @@ const Game = () => {
             </div>
           </div>
 
-          {/* Rules Card - Mobile Optimized */}
           <Card className="p-4 md:p-6 glass-card animate-fade-in">
             <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600 dark:from-blue-400 dark:to-green-400">
               Game Rules
@@ -662,7 +616,6 @@ const Game = () => {
             </ul>
           </Card>
 
-          {/* Game state popup */}
           {showPopup && (
             <div className="fixed inset-0 flex items-center justify-center z-50 animate-fade-in">
               <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setShowPopup(false)}></div>
@@ -695,6 +648,32 @@ const Game = () => {
           )}
         </div>
       </div>
+
+      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 py-2 px-4 shadow-lg">
+        <div className="container mx-auto flex flex-wrap justify-center md:justify-between items-center gap-2 text-sm">
+          <div className="flex items-center gap-2">
+            <span>Created by Lucky Yaduvanshi</span>
+            <a href="https://github.com/LuckyYaduvanshi5" target="_blank" rel="noopener noreferrer" 
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
+              <div className="flex items-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+                <span>GitHub</span>
+              </div>
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>More Puzzles:</span>
+            <a href="https://luckyyaduvanshi5.github.io/WaterJugPuzzle/" target="_blank" rel="noopener noreferrer" 
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Water Jug</a>
+            <a href="https://luckyyaduvanshi5.github.io/MonkeyBananaPuzzle/" target="_blank" rel="noopener noreferrer" 
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Monkey Banana</a>
+            <a href="https://luckyyaduvanshi5.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" 
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Portfolio</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
