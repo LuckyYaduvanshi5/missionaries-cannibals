@@ -433,6 +433,76 @@ const Game = () => {
     );
   };
 
+  // Add the missing renderBoat function
+  const renderBoat = () => {
+    const { boat, gameStatus } = gameState;
+    const isMoving = selectedPassengers.missionaries > 0 || selectedPassengers.cannibals > 0;
+    
+    return (
+      <div 
+        className={`absolute bottom-2 ${boat.position === 'left' ? 'boat-left' : 'boat-right'} 
+          transition-all duration-700 ease-in-out animate-boat-rock`}
+      >
+        {/* Boat */}
+        <div 
+          className={`w-28 h-12 md:w-32 md:h-14 rounded-b-full relative 
+            bg-gradient-to-b from-game-boat to-game-boat/80
+            dark:from-game-boatDark dark:to-game-boatDark/80
+            ${isMoving ? 'scale-105' : ''} 
+            transition-transform duration-300
+            ${gameStatus === 'playing' && !gameState.autoSolving ? 'cursor-pointer hover:scale-105' : ''}
+            shadow-md`}
+          onClick={() => {
+            if (gameStatus === 'playing' && !gameState.autoSolving) {
+              moveBoat();
+            }
+          }}
+        >
+          {/* Selected missionaries */}
+          <div className="absolute -top-8 left-2 flex gap-1">
+            {Array(selectedPassengers.missionaries).fill(0).map((_, i) => (
+              <div 
+                key={`selected-m-${i}`} 
+                className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center text-sm md:text-base rounded-full 
+                  bg-gradient-to-br from-blue-400 to-blue-600 text-white 
+                  dark:from-blue-700 dark:to-blue-900 shadow-md 
+                  cursor-pointer hover:scale-110 active:scale-95 transform transition-transform"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deselectPassenger('missionaries');
+                }}
+              >
+                👨‍🦳
+              </div>
+            ))}
+          </div>
+          
+          {/* Selected cannibals */}
+          <div className="absolute -top-8 right-2 flex gap-1">
+            {Array(selectedPassengers.cannibals).fill(0).map((_, i) => (
+              <div 
+                key={`selected-c-${i}`} 
+                className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center text-sm md:text-base rounded-full 
+                  bg-gradient-to-br from-red-400 to-red-600 text-white 
+                  dark:from-red-700 dark:to-red-900 shadow-md 
+                  cursor-pointer hover:scale-110 active:scale-95 transform transition-transform"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deselectPassenger('cannibals');
+                }}
+              >
+                🧟
+              </div>
+            ))}
+          </div>
+          
+          {/* Paddle */}
+          <div className={`absolute ${boat.position === 'left' ? 'right-2' : 'left-2'} -top-4 h-8 w-1.5 bg-amber-900 dark:bg-amber-800`}></div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="bg-gradient-to-br from-purple-100 via-blue-100 to-green-100 dark:from-gray-900 dark:via-blue-900/30 dark:to-green-900/30 min-h-screen">
